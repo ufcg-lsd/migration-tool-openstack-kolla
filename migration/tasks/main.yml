@@ -1,0 +1,16 @@
+---
+
+- name: stoping neutron
+  ansible.builtin.import_tasks: preparing_netron_to_migration.yml
+  tags:
+    - stop-neutron
+
+- name: deploying OVN plugin
+  ansible.builtin.import_tasks: ovn_deploy.yml
+  tags:
+    - deploy-ovn
+- name: cleaning the bd and finishing the migration
+  ansible.builtin.import_tasks: finishing_the_migration.yml
+  tags:
+    - cleaning-bd
+
