@@ -1,0 +1,33 @@
+---
+
+- name: adjusting the globals
+  shell: "sed -i 's|^neutron_plugin_agent: \"openvswitch\"|neutron_plugin_agent: \"ovn\"|' /etc/kolla/globals.yml"
+  args:
+    chdir: /etc/kolla
+
+- name: deploying the ovn
+  shell: kolla-ansible -i {{ path_to_hosts }} deploy -t ovn
+  args:
+    chdir: /etc/kolla
+
+- name: deploying the neutron to get the OVN configs
+  shell: kolla-ansible -i {{ path_to_hosts }} deploy -t neutron
+  args:
+    chdir: /etc/kolla
+
+- name: Set OVN options in ml2_conf.ini
+  ini_file:
+    path: /etc/kolla/neutron-server/ml2_conf.ini
+    section: ovn
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  loop:
+    - { option: neutron_sync_mode, value: repair }
+    - { option: ovn_l3_mode, value: "True" }
+    - { option: vif_type, value: ovs }
+
+- name: restart the container for geting the configs
+  shell: docker restart neutron_server
+  args:
+    chdir: /etc/kolla
+

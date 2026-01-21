@@ -1,0 +1,13 @@
+---
+
+- name: modify the BD to the new OVN configurations
+  ansible.builtin.shell: |
+    docker exec mariadb \
+    mysql -u {{ mariadb_user }} -p{{ mariadb_password }} \
+    -e "USE neutron; DELETE FROM providerresourceassociations;"
+
+- name: configuration openvswitch to OVN
+  shell: kolla-ansible -i {{ path_to_hosts }} reconfigure -t openvswitch
+  args:
+    chdir: /etc/kolla
+
