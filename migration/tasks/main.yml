@@ -5,7 +5,7 @@
   tags:
     - stop-neutron
 
-- name: deploying OVN plugin
+- name: Deploy OVN plugin
   ansible.builtin.import_tasks: ovn_deploy.yml
   tags:
     - deploy-ovn
