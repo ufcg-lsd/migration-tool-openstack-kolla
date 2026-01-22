@@ -1,6 +1,6 @@
 ---
 
-- name: stoping neutron
+- name: Stop Neutron service
   ansible.builtin.import_tasks: preparing_netron_to_migration.yml
   tags:
     - stop-neutron
