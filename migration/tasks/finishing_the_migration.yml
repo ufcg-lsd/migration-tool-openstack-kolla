@@ -1,6 +1,6 @@
 ---
 
-- name: modify the BD to the new OVN configurations
+- name: Delete ProviderResourceAssociations table from DB
   ansible.builtin.shell: |
     docker exec mariadb \
     mysql -u {{ mariadb_user }} -p{{ mariadb_password }} \
