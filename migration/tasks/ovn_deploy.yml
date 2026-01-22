@@ -10,7 +10,7 @@
   args:
     chdir: /etc/kolla
 
-- name: deploying the neutron to get the OVN configs
+- name: Deploy Neutron to load OVN configs
   shell: kolla-ansible -i {{ path_to_hosts }} deploy -t neutron
   args:
     chdir: /etc/kolla
