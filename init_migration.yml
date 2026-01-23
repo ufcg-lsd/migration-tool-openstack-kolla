@@ -1,6 +1,6 @@
 ---
   - name: migration OVS plugin to OVN
-    hosts: localhost
+    hosts: control
     gather_facts: yes
     become: true
     roles:

@@ -8,6 +8,4 @@
 
 - name: Reconfigure OVS to get OVN configurations
   shell: kolla-ansible -i {{ path_to_hosts }} reconfigure -t openvswitch
-  args:
-    chdir: /etc/kolla
 

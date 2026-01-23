@@ -1,23 +1,28 @@
 ---
 
-- name: adjusting the globals
+- name: Replace ML2 plugin from OVS to OVN
   shell: "sed -i 's|^neutron_plugin_agent: \"openvswitch\"|neutron_plugin_agent: \"ovn\"|' /etc/kolla/globals.yml"
-  args:
-    chdir: /etc/kolla
 
-- name: deploying the ovn
+- name: Deploy OVN service
   shell: kolla-ansible -i {{ path_to_hosts }} deploy -t ovn
-  args:
-    chdir: /etc/kolla
 
-- name: Deploy Neutron to load OVN configs
-  shell: kolla-ansible -i {{ path_to_hosts }} deploy -t neutron
-  args:
-    chdir: /etc/kolla
+- name: Check if ml2_conf.ini exists
+  stat:
+    path: /etc/kolla/config/neutron/ml2_conf.ini
+  register: ml2_conf_file
+
+- name: Ensure neutron config directory and ml2_conf.ini exist
+  file:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - { path: /etc/kolla/config/neutron, state: directory, mode: '0755' }
+    - { path: /etc/kolla/config/neutron/ml2_conf.ini, state: touch, mode: '0644' }
 
 - name: Set OVN options in ml2_conf.ini
   ini_file:
-    path: /etc/kolla/neutron-server/ml2_conf.ini
+    path: /etc/kolla/config/neutron/ml2_conf.ini
     section: ovn
     option: "{{ item.option }}"
     value: "{{ item.value }}"
@@ -26,8 +31,6 @@
     - { option: ovn_l3_mode, value: "True" }
     - { option: vif_type, value: ovs }
 
-- name: restart the container for geting the configs
-  shell: docker restart neutron_server
-  args:
-    chdir: /etc/kolla
+- name: Reconfigure the neutron service
+  shell: kolla-ansible -i {{ path_to_hosts }} reconfigure -t neutron
 

@@ -1,7 +1,7 @@
 ---
 
 - name: Stop Neutron service
-  ansible.builtin.import_tasks: preparing_netron_to_migration.yml
+  ansible.builtin.import_tasks: prepare_neutron.yml
   tags:
     - stop-neutron
 
@@ -9,8 +9,8 @@
   ansible.builtin.import_tasks: ovn_deploy.yml
   tags:
     - deploy-ovn
-    
-- name: cleaning the bd and finishing the migration
+
+- name: Clean the database and finish the migration
   ansible.builtin.import_tasks: finishing_the_migration.yml
   tags:
     - cleaning-bd
