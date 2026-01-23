@@ -1,5 +1,5 @@
 ---
-- name: stoping neutron to aplication configurations
+- name: Stop Neutron service to apply configurations
   shell: kolla-ansible -i {{ path_to_hosts }} stop -t neutron --yes-i-really-really-mean-it
   args:
     chdir: /etc/kolla
