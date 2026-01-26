@@ -1,7 +1,7 @@
 ---
 
 - name: Stoping neutron OVS services on systemd
-  shell: systemctl stop {{ item }}
+  shell: systemctl disable {{ item }}
   loop:
     - kolla-neutron_metadata_agent-container.service 
     - kolla-neutron_l3_agent-container.service
