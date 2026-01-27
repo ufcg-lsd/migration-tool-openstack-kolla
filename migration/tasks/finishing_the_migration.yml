@@ -1,0 +1,11 @@
+---
+
+- name: Delete ProviderResourceAssociations table from DB
+  ansible.builtin.shell: |
+    docker exec mariadb \
+    mysql -u {{ mariadb_user }} -p{{ mariadb_password }} \
+    -e "USE neutron; DELETE FROM providerresourceassociations;"
+
+- name: Reconfigure OVS to get OVN configurations
+  shell: kolla-ansible -i {{ path_to_hosts }} reconfigure -t openvswitch
+
