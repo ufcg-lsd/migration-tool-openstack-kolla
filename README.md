@@ -6,7 +6,7 @@ This repository provides an **Ansible-based migration tool** to migrate an OpenS
 
 The migration process is based on existing community approaches, with adaptations to better fit the Kolla architecture. While the tool has been tested in several scenarios, it may still require adjustments depending on the target environment.
 
-> ⚠️ **Important:** Before running this migration, it is **strongly recommended** to create a **full backup** of your OpenStack environment.
+>  **Important:** Before running this migration, it is **strongly recommended** to create a **full backup** of your OpenStack environment.
 
 ---
 
@@ -80,11 +80,11 @@ Once this step is completed, the migration is considered **finalized**.
 
 ## Important Notes
 
-- 🔒 **Always back up your environment before running the migration**
-- 🧪 Tested in limited environments; additional tuning may be required
-- ⚠️ **Octavia compatibility**
+-  **Always back up your environment before running the migration**
+-  Tested in limited environments; additional tuning may be required
+-  **Octavia compatibility**
 
-> ❗ **This migration has NOT been tested with Octavia (Load Balancer as a Service).**  
+>  **This migration has NOT been tested with Octavia (Load Balancer as a Service).**  
 > Environments using Octavia may encounter unexpected behavior.  
 > Thorough testing in a staging environment is strongly recommended.
 
