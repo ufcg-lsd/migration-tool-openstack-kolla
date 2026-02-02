@@ -1,14 +1,113 @@
-# Migration-tool OVS to OVN
+# Migration Tool – OVS to OVN (Kolla OpenStack)
 
-Before anything else, it is necessary to create a backup of the OpenStack environment to prevent any issues that may occur. This migration tool was designed based on existing tools, but adapted specifically for Kolla OpenStack. It may still require some adjustments; however, at the time of writing, all performed tests have shown that it is functional.
+## Overview
 
-The Ansible playbook workflow is as follows:
+This repository provides an **Ansible-based migration tool** to migrate an OpenStack environment from **Neutron Open vSwitch (OVS)** to **Neutron OVN**, specifically designed for **Kolla / Kolla-Ansible deployments**.
 
-#Step 1:
-The playbook starts by stopping the systemd services related to Neutron OVS, which will no longer be used after the migration. After that, it stops the Neutron service itself and cleans the Open vSwitch flows. OVS is not removed during the migration; it remains in place, but control is transferred to OVN. At this stage, the br-tun bridge is cleaned because it is not used by OVN, and the OVS flows are removed to avoid conflicts with the new rules that will be applied by OVN.
+The migration process is based on existing community approaches, with adaptations to better fit the Kolla architecture. While the tool has been tested in several scenarios, it may still require adjustments depending on the target environment.
 
-#Step 2:
-The Neutron plugin is updated in the globals.yml file, and OVN is deployed. Required configurations are added to the Neutron configuration files, and Neutron is reconfigured to adapt to the OVN-related settings.
+> ⚠️ **Important:** Before running this migration, it is **strongly recommended** to create a **full backup** of your OpenStack environment.
 
-#Step 3:
-Finally, a small change is made to the database, specifically in the providerresourceassociations table. This table contains legacy configuration related to OVS, but it needs to be updated to reflect the OVN configuration. Although the system may continue to work with the OVS configuration, if the machine or the Neutron service is restarted, the network will break. This happens because Neutron attempts to register the correct provider (OVN), but the table is already populated. With this adjustment, the migration is completed.
+---
+
+## Scope and Assumptions
+
+- OpenStack deployed using **Kolla / Kolla-Ansible**
+- Migration path: **Neutron OVS → Neutron OVN**
+- Open vSwitch is **not removed** during the migration
+- Networking control is transferred from OVS to OVN
+
+---
+
+## Migration Workflow
+
+The migration is executed through an **Ansible playbook** and is divided into three main steps.
+
+---
+
+### Step 1 – Stop OVS Services and Clean OVS State
+
+The playbook performs the following actions:
+
+- Stops systemd services related to **Neutron OVS**
+- Stops the **Neutron service**
+- Removes existing **Open vSwitch flows**
+- Cleans the **`br-tun` bridge**
+
+#### Why this step is required
+
+- `br-tun` is **not used by OVN**
+- Existing OVS flows may conflict with OVN rules
+- Ensures a clean transition to OVN
+
+> ℹ️ **Note:** OVS remains installed after this step, but it is no longer managed by Neutron.
+
+---
+
+### Step 2 – Switch Neutron Plugin and Deploy OVN
+
+This step updates the OpenStack configuration to use OVN:
+
+- Updates the Neutron plugin in `globals.yml`
+- Deploys **OVN services**
+- Adds required **OVN configuration options** to Neutron configuration files
+- Reconfigures Neutron to apply OVN settings
+
+After this step, Neutron is fully configured to operate with OVN.
+
+---
+
+### Step 3 – Database Adjustment
+
+A small but critical database change is performed:
+
+- Updates the `providerresourceassociations` table
+- Removes legacy **OVS-related entries**
+- Ensures the provider information reflects **OVN**
+
+#### Why this step is necessary
+
+Without this adjustment, the system may appear functional but will fail after:
+
+- Neutron service restarts
+- Host reboots
+
+Neutron will attempt to register OVN as the provider, but the table will already be populated with OVS data, causing network failures.
+
+Once this step is completed, the migration is considered **finalized**.
+
+---
+
+## Important Notes
+
+- 🔒 **Always back up your environment before running the migration**
+- 🧪 Tested in limited environments; additional tuning may be required
+- ⚠️ **Octavia compatibility**
+
+> ❗ **This migration has NOT been tested with Octavia (Load Balancer as a Service).**  
+> Environments using Octavia may encounter unexpected behavior.  
+> Thorough testing in a staging environment is strongly recommended.
+
+---
+
+## Migration Status
+
+- [x] Neutron OVS to OVN migration
+- [x] Kolla-specific workflow
+- [ ] Tested with Octavia
+
+---
+
+## Disclaimer
+
+This tool modifies core networking components and database entries in OpenStack.  
+Use it at your own risk and **never run directly in production without prior validation**.
+
+---
+
+## Contributing
+
+Contributions, bug reports, and improvements are welcome.  
+Please open an issue or submit a pull request.
+
+
