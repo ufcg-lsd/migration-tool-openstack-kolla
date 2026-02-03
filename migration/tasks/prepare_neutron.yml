@@ -1,0 +1,21 @@
+---
+
+- name: Stoping neutron OVS services on systemd
+  shell: systemctl disable {{ item }}
+  loop:
+    - kolla-neutron_metadata_agent-container.service 
+    - kolla-neutron_l3_agent-container.service
+    - kolla-neutron_openvswitch_agent-container.service
+
+- name: Stoping neutron to aplication configurations
+  shell: kolla-ansible -i {{ path_to_hosts }} stop -t neutron --yes-i-really-really-mean-it
+
+- name: Configure OVS container
+  command: docker exec openvswitch_vswitchd {{ item }}
+  loop:
+    - ovs-vsctl del-br br-tun
+    - ovs-vsctl set Bridge br-ex protocols=[]
+    - ovs-vsctl set Bridge br-int protocols=[]
+
+- name: Clean network namespaces
+  shell: ip -all netns delete
