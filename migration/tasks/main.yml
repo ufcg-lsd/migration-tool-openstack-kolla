@@ -11,7 +11,7 @@
     - deploy-ovn
 
 - name: Clean the database and finish the migration
-  ansible.builtin.import_tasks: finishing_the_migration.yml
+  ansible.builtin.import_tasks: pos_migration.yml
   tags:
     - cleaning-bd
 

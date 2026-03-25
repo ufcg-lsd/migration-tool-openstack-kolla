@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository provides an **Ansible-based migration tool** to migrate an OpenStack environment from **Neutron Open vSwitch (OVS)** to **Neutron OVN**, specifically designed for **Kolla / Kolla-Ansible deployments**.
+This repository provides an **Ansible-based migration tool** to migrate an OpenStack environment from **Neutron Open vSwitch (OVS)** to **Neutron OVN**, specifically designed for **Kolla**.
 
 The migration process is based on existing community approaches, with adaptations to better fit the Kolla architecture. While the tool has been tested in several scenarios, it may still require adjustments depending on the target environment.
 
@@ -12,7 +12,7 @@ The migration process is based on existing community approaches, with adaptation
 
 ## Scope and Assumptions
 
-- OpenStack deployed using **Kolla / Kolla-Ansible**
+- OpenStack deployed using **Kolla**
 - Migration path: **Neutron OVS → Neutron OVN**
 - Open vSwitch is **not removed** during the migration
 - Networking control is transferred from OVS to OVN
