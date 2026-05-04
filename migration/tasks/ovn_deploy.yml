@@ -4,9 +4,9 @@
   shell: "sed -i 's|^neutron_plugin_agent: \"openvswitch\"|neutron_plugin_agent: \"ovn\"|' /etc/kolla/globals.yml"
 
 - name: Deploy OVN service
-  shell: kolla-ansible -i {{ path_to_hosts }} deploy -t ovn
+  shell: kolla-ansible deploy -i {{ path_to_hosts }} -t ovn
 
-- name: Check if ml2_conf.ini exists
+- name: Get file stats
   stat:
     path: /etc/kolla/config/neutron/ml2_conf.ini
   register: ml2_conf_file
@@ -32,5 +32,5 @@
     - { option: vif_type, value: ovs }
 
 - name: Reconfigure the neutron service
-  shell: kolla-ansible -i {{ path_to_hosts }} reconfigure -t neutron
+  shell: kolla-ansible reconfigure -i {{ path_to_hosts }} -t neutron
 

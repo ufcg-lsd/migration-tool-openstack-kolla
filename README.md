@@ -7,7 +7,7 @@ This repository provides an **Ansible-based migration tool** to migrate an OpenS
 The migration process is based on existing community approaches, with adaptations to better fit the Kolla architecture. While the tool has been tested in several scenarios, it may still require adjustments depending on the target environment.
 
 >  **Important:** Before running this migration, it is **strongly recommended** to create a **full backup** of your OpenStack environment.
-
+https://docs.openstack.org/kolla-ansible/latest/admin/mariadb-backup-and-restore.html
 ---
 
 ## Scope and Assumptions

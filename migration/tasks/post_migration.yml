@@ -7,5 +7,5 @@
     -e "USE neutron; DELETE FROM providerresourceassociations;"
 
 - name: Reconfigure OVS to get OVN configurations
-  shell: kolla-ansible -i {{ path_to_hosts }} reconfigure -t openvswitch
+  shell: kolla-ansible reconfigure -i {{ path_to_hosts }} -t openvswitch
 
