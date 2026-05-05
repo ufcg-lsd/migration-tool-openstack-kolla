@@ -1,7 +1,10 @@
 ---
 
 - name: Replace ML2 plugin from OVS to OVN
-  shell: "sed -i 's|^neutron_plugin_agent: \"openvswitch\"|neutron_plugin_agent: \"ovn\"|' /etc/kolla/globals.yml"
+  ansible.builtin.replace:
+    path: /etc/kolla/globals.yml
+    regexp: '^neutron_plugin_agent: "openvswitch"'
+    replace: 'neutron_plugin_agent: "ovn"'
 
 - name: Deploy OVN service
   shell: kolla-ansible deploy -i {{ path_to_hosts }} -t ovn
