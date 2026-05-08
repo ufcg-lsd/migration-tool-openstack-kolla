@@ -94,7 +94,14 @@ Once this step is completed, the migration is considered **finalized**.
 
 - [x] Neutron OVS to OVN migration
 - [x] Kolla-specific workflow
-- [ ] Tested with Octavia
+- [x] Tested with Octavia with Amphora driver
+- [x] Tested with Octavia with OVN driver
+
+---
+
+## About Octavia
+
+In tests using the tool, octavia with the amphora driver dont get any error, critial, but in the visual the provising stay with a error but the Loadbalancer continue to work, you can corrigethat with a simples **openstack loadbalancer failover <loadbalancer-id>**,using the octavia with OVN driver its not tested yet.
 
 ---
 
