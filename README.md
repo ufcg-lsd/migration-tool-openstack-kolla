@@ -101,7 +101,7 @@ Once this step is completed, the migration is considered **finalized**.
 
 ## About Octavia
 
-In tests using the tool, octavia with the amphora driver dont get any error, critial, but in the visual the provising stay with a error but the Loadbalancer continue to work, you can corrigethat with a simples **openstack loadbalancer failover <loadbalancer-id>**,using the octavia with OVN driver its not tested yet.
+In tests using the tool, Octavia with the Amphora driver did not show any errors or critical issues. However, in the UI, the provisioning status remains in an error state even though the load balancer continues to work correctly. You can fix this by running a simple **openstack loadbalancer failover <loadbalancer-id>**. Using Octavia with the OVN driver has not been tested yet.
 
 ---
 
