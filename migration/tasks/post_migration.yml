@@ -4,7 +4,9 @@
   community.docker.docker_container_exec:
     container: mariadb
     command: >
-      mysql -u {{ mariadb_user }} -p{{ mariadb_password }}
+      mysql -h {{ vip_address }} 
+      -u {{ mariadb_user }} 
+      -p{{ mariadb_password }}
       -e "DELETE FROM providerresourceassociations;"
       neutron
   register: result
