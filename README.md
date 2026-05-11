@@ -110,11 +110,5 @@ In tests using the tool, Octavia with the Amphora driver did not show any errors
 This tool modifies core networking components and database entries in OpenStack.  
 Use it at your own risk and **never run directly in production without prior validation**.
 
----
-
-## Contributing
-
-Contributions, bug reports, and improvements are welcome.  
-Please open an issue or submit a pull request.
 
 
