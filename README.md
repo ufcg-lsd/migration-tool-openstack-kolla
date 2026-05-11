@@ -95,7 +95,7 @@ Once this step is completed, the migration is considered **finalized**.
 - [x] Neutron OVS to OVN migration
 - [x] Kolla-specific workflow
 - [x] Tested with Octavia with Amphora driver
-- [ ] Tested with Octavia with OVN driver
+- [x] Tested with Octavia with OVN driver
 
 ---
 
