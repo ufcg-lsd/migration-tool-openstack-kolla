@@ -37,3 +37,7 @@
 - name: Reconfigure the neutron service
   shell: kolla-ansible reconfigure -i {{ path_to_hosts }} -t neutron
 
+- name: Sync existing data
+  shell: docker exec neutron_server neutron-ovn-db-sync-util --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini
+  register: sync_result
+  failed_when: sync_result.rc != 0 and "Deprecated" not in sync_result.stderr
