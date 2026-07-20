@@ -1,0 +1,16 @@
+---
+
+- name: Delete rows via Docker Exec module
+  community.docker.docker_container_exec:
+    container: mariadb
+    command: >
+      mysql -h {{ vip_address }} 
+      -u {{ mariadb_user }} 
+      -p{{ mariadb_password }}
+      -e "DELETE FROM providerresourceassociations;"
+      neutron
+  register: result
+
+- name: Reconfigure OVS to get OVN configurations
+  shell: kolla-ansible reconfigure -i {{ path_to_hosts }} -t openvswitch
+

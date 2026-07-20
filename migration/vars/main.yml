@@ -1,0 +1,5 @@
+---
+mariadb_user: 
+mariadb_password:
+path_to_hosts: 
+vip_address:
